@@ -1,0 +1,26 @@
+
+<?php
+	
+	// Database Settings
+	define("DB_DOMAIN", "");
+	define("DB_USERNAME", "");
+	define("DB_PASSWORD", "");
+	define("DB_NAME", "");
+
+	// Flickr settings
+	define("FLICKR_USER_ID", "");
+	define("FLICKR_API_KEY", "");
+	define("FLICKR_API_SECRET", "");
+	define("FLICKR_TOKEN", "");
+	
+	/*
+	 * Display image sizes options are:
+	 * 	Square
+	 *	Thumbnail
+	 *	Small
+	 *	Medium
+	 *	Medium 640
+	 *	Large
+	 */
+	define("FLICKR_IMAGE_SIZE_TO_DISPLAY", "Small");
+?>	

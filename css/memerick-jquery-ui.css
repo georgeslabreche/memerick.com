@@ -1,0 +1,13 @@
+/* We don't want to display the headers of the dialogs. */
+.ui-dialog .ui-dialog-titlebar { 
+	display:none; 
+}
+
+.ui-dialog .ui-dialog-content { 
+	border: 0; 
+	padding: .5em 1em; 
+	overflow: auto; 
+	zoom: 1; 
+	font-family:"Times New Roman", Times, serif;
+	font-size:0.8em;
+}
