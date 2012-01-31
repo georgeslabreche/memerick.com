@@ -1,12 +1,13 @@
 <?php
 
 	require_once('../config/database.php');
+	require_once('theme_manager.php');
 
 	$content = $_POST["text_content"];
 	
-	$current_date = getdate();
-	$current_year = $current_date["year"];
-	$current_month = $current_date["mon"];
+	$theme_manager = new ThemeManager(); 
+	$year = $theme_manager->getYear();
+	$month = $theme_manager->getMonth();
 
 	// Formulate Query
 	$query = sprintf(
@@ -15,8 +16,8 @@
 		mysql_real_escape_string($content),
 		mysql_real_escape_string($author),
 		mysql_real_escape_string($theme_id),
-		mysql_real_escape_string($current_year),
-		mysql_real_escape_string($current_month));
+		mysql_real_escape_string($year),
+		mysql_real_escape_string($month));
 	
 	// Execute query
 	mysql_query($query);

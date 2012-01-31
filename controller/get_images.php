@@ -51,41 +51,49 @@
 	$theme_manager = new ThemeManager();
 	$current_theme_tags = $theme_manager->getCurrentThemeTags();
 	
-	// Create instance of phpFlick so that we can post requests to Flickr
-	$phpFlickr = new phpFlickr(FLICKR_API_KEY, FLICKR_API_SECRET, true);
+	// If theme exist for the given year and month
+	if($current_theme_tags != null){
 	
-	// Search by the current theme tags and our Flickr account user id.
-	$current_theme_photos = $phpFlickr->photos_search(array("user_id"=>FLICKR_USER_ID, "tags"=>$current_theme_tags));
-
-	// Build json result and return it	
-	foreach ((array)$current_theme_photos['photo'] as $photo) {
-    	$photo_page_url = "http://www.flickr.com/photos/$photo[owner]/$photo[id]";
-    	
-    	// Get photo sizes
-    	$photo_sizes = $phpFlickr->photos_getSizes($photo["id"]);
-    	
-    	// Get required data for photo rendition we wish to display.
-    	foreach ((array)$photo_sizes as $photo_size) {
-
-    		if($photo_size["label"] == FLICKR_IMAGE_SIZE_TO_DISPLAY){
-				$photo_display_rendition_url = $photo_size["source"];
-    			$photo_display_rendition_width = $photo_size["width"];
-    			$photo_display_rendition_height = $photo_size["height"];
-    			break;
-    		}
-    		
-    	}
-
-    	// Build array of data of photos to display
-    	$rows[] = array(
-            "photo_page_url" => $photo_page_url,
-            "photo_display_rendition_url" => $photo_display_rendition_url,
-    		"photo_display_rendition_width" => $photo_display_rendition_width,
-    		"photo_display_rendition_height" => $photo_display_rendition_height
-    	);
-    	
+		// Create instance of phpFlick so that we can post requests to Flickr
+		$phpFlickr = new phpFlickr(FLICKR_API_KEY, FLICKR_API_SECRET, true);
+		
+		// Search by the current theme tags and our Flickr account user id.
+		$current_theme_photos = $phpFlickr->photos_search(array("user_id"=>FLICKR_USER_ID, "tags"=>$current_theme_tags));
+	
+		// Build json result and return it	
+		foreach ((array)$current_theme_photos['photo'] as $photo) {
+	    	$photo_page_url = "http://www.flickr.com/photos/$photo[owner]/$photo[id]";
+	    	
+	    	// Get photo sizes
+	    	$photo_sizes = $phpFlickr->photos_getSizes($photo["id"]);
+	    	
+	    	// Get required data for photo rendition we wish to display.
+	    	foreach ((array)$photo_sizes as $photo_size) {
+	
+	    		if($photo_size["label"] == FLICKR_IMAGE_SIZE_TO_DISPLAY){
+					$photo_display_rendition_url = $photo_size["source"];
+	    			$photo_display_rendition_width = $photo_size["width"];
+	    			$photo_display_rendition_height = $photo_size["height"];
+	    			break;
+	    		}
+	    		
+	    	}
+	
+	    	// Build array of data of photos to display
+	    	$rows[] = array(
+	            "photo_page_url" => $photo_page_url,
+	            "photo_display_rendition_url" => $photo_display_rendition_url,
+	    		"photo_display_rendition_width" => $photo_display_rendition_width,
+	    		"photo_display_rendition_height" => $photo_display_rendition_height
+	    	);
+	    	
+		}
+		
+		// Return result
+		print json_encode($rows);
+		
+	}else{
+		// If theme doesn't exist for the given year and month, return empty result.
+		print "";
 	}
-	
-	// Return result
-	print json_encode($rows);
 ?>

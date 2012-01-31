@@ -14,7 +14,7 @@
 	// Get the current theme's tags based on the current date.
 	// We will apply these tags on the image upload
 	$theme_manager = new ThemeManager();
-	$current_theme_tags = $theme_manager->getCurrentThemeTags();
+	$current_theme_tags = $theme_manager->getPresentThemeTags();
 	
 	// From the temp folder where the file was uploaded, upload to Flickr.
 	$photo_id = $phpFlickr->sync_upload($temp_filename, null, null, $current_theme_tags);

@@ -26,6 +26,22 @@
 	
 	// on page ready
 	$(document).ready(function() {
+
+		/**
+		 * Return an associative array of the page's url parameters.
+		 * For our index page this will be date data.
+		 *
+		 * e.g. memerick.com?year=2012&month=2
+		 * will return {"year":"2012", "month":"2"} 		  
+		 */
+		function getUrlVars(){ 
+		   return window.location.href.substring(window.location.href.indexOf('?') + 1);
+		}
+
+		// Get the date data from the url parameters.
+		var dateData = getUrlVars();
+		
+		
 		var text_editor_width = 500;
 		var text_editor_height = 250;
 
@@ -37,19 +53,29 @@
 		$('#canvas').css('left', '0');
 
 
-		// Array of a colour pair.
-		// A colour pair consists of the text dialog's background colours and its respective font colour
-		var text_box_colour_array = new Array(
-				new Array ("#E066FF", "#000000"),
-				new Array ("#D8BFD8", "#000000"),
-				new Array ("#CDC1C5", "#000000"),
-				new Array ("#FF7D40", "#000000"),
-				new Array ("#E9C2A6", "#000000"),
-				new Array ("#FFE4C4", "#000000")
-		)
+		var text_box_colour_json = null;
 		
 		var $document_width = $(document).width();
 		var $document_height = $(document).height();
+
+		// Get the background colours
+		// Blocking operation because styling the site will require these values.
+		
+		// Get the text box colours
+		// Blocking operation because creating the text boxes will require these values.
+		$.ajax({
+			url: 'controller/get_text_box_colours.php',
+			async: false,
+			data: dateData,
+			dataType: 'json',
+			success: function(data){
+				text_box_colour_json = data;
+			},
+			error : function() {
+				//alert('Great Failure!');
+			}
+		});
+
 		
 		function generate_random_coordinates(){
 			var x = Math.floor(Math.random() * ($document_width - 400)) + 50;
@@ -122,19 +148,23 @@
 		 */
 		$.ajax({
 			url: 'controller/get_text.php',
+			data: dateData,
 			dataType: 'json',
 			success: function(data){
 
 				var text_dialog_colours_index = 0;
-				
+
+				// For each text fetched
 				jQuery.each(data, function(index, object) {
 
-					// Get colours and text content for the dialogue
-					var background_color = text_box_colour_array[text_dialog_colours_index][0];
-					var font_color =  text_box_colour_array[text_dialog_colours_index][1];;
+					// Get colours and text content for the text dialog that we will build
+					var background_color = text_box_colour_json[text_dialog_colours_index]['background_colour'];
+					var font_color =  text_box_colour_json[text_dialog_colours_index]['font_colour'];
+
+					// Get actual textual content 
 					var text_content = object['content'];
 
-					// Build the dialog
+					// Build the text dialog box
 					build_and_display_text_dialog(text_content, background_color, font_color);
 
 					// Increment text dialog colour index so that the next dialog we will create
@@ -143,7 +173,7 @@
 
 					// Reset the text dialog colours index if we have gone through all the colour pairs.
 					// Restart from the first pair of colours.
-					if(text_dialog_colours_index >= text_box_colour_array.length){
+					if(text_dialog_colours_index >= text_box_colour_json.length){
 						text_dialog_colours_index = 0;
 					}
 				});
@@ -156,6 +186,7 @@
 		
 		$.ajax({
 			url: 'controller/get_images.php',
+			data: dateData,
 			dataType: 'json',
 			success: function(images_json){
 
@@ -258,9 +289,11 @@
 
 		$('#sidebarslip').toggle(
 			function() {
-				$('#canvas').animate({left: 200})
+				$('#canvas').animate({left: 200});
+				$('#footer').animate({left: 200});
 			}, function() {
-				$('#canvas').animate({left:0})
+				$('#canvas').animate({left:0});
+				$('#footer').animate({left:0});
 			}
 		);
 

@@ -3,7 +3,7 @@ html, body {
     padding: 0;
     border: 0;
 }
-#sidebar, #canvas {
+#sidebar, #canvas/*, #footer*/{
     position: absolute;
 }
 #sidebar {
@@ -29,4 +29,14 @@ html, body {
     right: 0;
     bottom: 0px;
     background:green;
+    min-height:100%;
 }
+/*
+#footer {
+	bottom: 0px;
+  	left: 200px;
+  	right: 0;
+   	height:20px;   /* Height of the footer */
+   	background:blue;
+   	font-family:"Times New Roman", Times, serif;
+}*/
