@@ -36,17 +36,6 @@
 		 * e.g. memerick.com?year=2012&month=2
 		 * will return {"year":"2012", "month":"2"} 		  
 		 */
-		 
-		/*
-		function getUrlVarsString(){
-			 var indexOfQuestionMark = window.location.href.indexOf('?');
-			 if(indexOfQuestionMark > 0){
-		     	return window.location.href.substring(indexOfQuestionMark + 1);
-			 }else{
-				return "";
-			 }
-		}*/
-
 		function getUrlVars() {
 			var vars = {};
 			var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, 
@@ -57,12 +46,15 @@
 		    return vars;
 		}
 
+		/**
+		 * Get a specific param value from the url.
+		 */
 		function getUrlVar(paramName){
 			return getUrlVars()[paramName];
 		}
 					 
 
-		// Get the date data from the url parameters.
+		// Get the date data associative array from the url parameters.
 		var dateData = getUrlVars();
 
 		// If date was not set in url params, fetch it.
@@ -119,6 +111,26 @@
 
 		// Get the background colours
 		// Blocking operation because styling the site will require these values.
+		$.ajax({
+			url: 'controller/get_background_colours.php',
+			data: dateData,
+			dataType: 'json',
+			success: function(background_colours_json){
+			
+				// Get retrieved background colours 
+				var content_colour = background_colours_json[0]['content_colour'];
+				var sidebar_colour = background_colours_json[0]['sidebar_colour'];
+
+				// Apply retrieved background colours
+				$('#canvas').css('background-color', content_colour);
+				$('#footer').css('background-color', content_colour);
+				$('#sidebarslip').css('background-color', sidebar_colour);
+				$('#sidebar').css('background-color', sidebar_colour);
+			},
+			error : function() {
+				//alert('Great Failure!');
+			}
+		});
 		
 		// Get the text box colours
 		// Blocking operation because creating the text boxes will require these values.
@@ -128,6 +140,7 @@
 			data: dateData,
 			dataType: 'json',
 			success: function(data){
+				// This data will be used later, when creating the text boxes dialogs.
 				text_box_colour_json = data;
 			},
 			error : function() {

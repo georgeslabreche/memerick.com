@@ -11,14 +11,12 @@ html, body {
     top: 0px;
     width: 200px;
     bottom: 0px;
-    background:orange;
 }
 #sidebarslip {
 	display: inline-block;
 	padding: 2px;
 	padding-left: 4px;
 	padding-right: 4px;
-    background:orange;
     cursor: pointer;
     /*opacity:0.4;*/
 	/*filter:alpha(opacity=40);*/ /* For IE8 and earlier */
@@ -28,7 +26,6 @@ html, body {
     left: 200px;
     right: 0;
     bottom: 0px;
-    background:green;
     min-height:100%;
 }
 
@@ -40,7 +37,6 @@ html, body {
   	
   	right: 0;
    	height:20px;   /* Height of the footer */
-   	background:yellow;
    	text-align:center;
 }
 
