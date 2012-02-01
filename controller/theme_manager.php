@@ -6,11 +6,11 @@ class ThemeManager {
 	 * Get year from url param.
 	 * If it's not there then just get the present year.
 	 */
-	public function getYear(){
+	public function getDisplayedThemeYear(){
 		if($_GET['year'] != null){
-			return $_GET['year'];
+			return (int)$_GET['year'];
 		}else{
-			return $this->getTodaysYear();
+			return (int)$this->getTodaysYear();
 		}
 	}
 	
@@ -18,11 +18,11 @@ class ThemeManager {
 	 * Get month from url param.
 	 * If it's not there then just get the present month.
 	 */
-	public function getMonth(){
+	public function getDisplayedThemeMonth(){
 		if($_GET['month'] != null){
-			return $_GET['month'];
+			return (int)$_GET['month'];
 		}else{
-			return $this->getTodaysMonth();
+			return (int)$this->getTodaysMonth();
 		}	
 	}
 	
@@ -78,8 +78,8 @@ class ThemeManager {
 	 */
 	public function getCurrentTheme(){
 		
-		$year = $this->getYear();
-		$month = $this->getMonth();
+		$year = $this->getDisplayedThemeYear();
+		$month = $this->getDisplayedThemeMonth();
 
 		// Get and return current theme
 		return $this->getTheme($year, $month);
@@ -96,11 +96,23 @@ class ThemeManager {
 	}
 	
 	/**
+	 * Get theme date string.
+	 * e.g. "February 2012"
+	 */
+	public function getDisplayedThemeDate(){
+		$year = $this->getDisplayedThemeYear();
+		$month_number = $this->getDisplayedThemeMonth();
+		$month_name = date( 'F', mktime(0, 0, 0, $month_number, 1));
+		
+		return $month_name . " " . $year;
+	}
+	
+	/**
 	 * Get text box colours of displayed theme.
 	 */
 	public function getDisplayedThemeTextBoxColours(){
-		$year = $this->getYear();
-		$month = $this->getMonth();
+		$year = $this->getDisplayedThemeYear();
+		$month = $this->getDisplayedThemeMonth();
 
 		return $this->getTextBoxColours($year, $month);
 	}
@@ -109,8 +121,8 @@ class ThemeManager {
 	 * Get background colours of displayed theme.
 	 */
 	public function getDisplayedThemeBackgroundColours(){
-		$year = $this->getYear();
-		$month = $this->getMonth();
+		$year = $this->getDisplayedThemeYear();
+		$month = $this->getDisplayedThemeMonth();
 
 		return $this->getBackgroundColours($year, $month);
 	}

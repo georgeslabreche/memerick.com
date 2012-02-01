@@ -4,8 +4,8 @@
 	require_once('theme_manager.php');
 	
 	$theme_manager = new ThemeManager();
-	$year = $theme_manager->getYear();
-	$month = $theme_manager->getMonth();
+	$year = $theme_manager->getDisplayedThemeYear();
+	$month = $theme_manager->getDisplayedThemeMonth();
 
 	// Formulate Query
 	$query = sprintf(

@@ -6,11 +6,13 @@
 	$theme_manager = new ThemeManager(); 
 
 ?>
-
-	<link rel="stylesheet" type="text/css" href="css/sidebar.css">
-	<link rel="stylesheet" type="text/css" href="js/cleditor/jquery.cleditor.css">
-	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css">
-	<link rel="stylesheet" type="text/css" href="css/memerick-jquery-ui.css">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="css/sidebar.css" />
+	<link rel="stylesheet" type="text/css" href="js/cleditor/jquery.cleditor.css" />
+	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css" />
+	<link rel="stylesheet" type="text/css" href="css/memerick-jquery-ui.css" />
 
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/jquery-ui.min.js"></script>
@@ -34,12 +36,69 @@
 		 * e.g. memerick.com?year=2012&month=2
 		 * will return {"year":"2012", "month":"2"} 		  
 		 */
-		function getUrlVars(){ 
-		   return window.location.href.substring(window.location.href.indexOf('?') + 1);
+		 
+		/*
+		function getUrlVarsString(){
+			 var indexOfQuestionMark = window.location.href.indexOf('?');
+			 if(indexOfQuestionMark > 0){
+		     	return window.location.href.substring(indexOfQuestionMark + 1);
+			 }else{
+				return "";
+			 }
+		}*/
+
+		function getUrlVars() {
+			var vars = {};
+			var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, 
+					function(m,key,value) {
+						vars[key] = value;
+					});
+
+		    return vars;
 		}
+
+		function getUrlVar(paramName){
+			return getUrlVars()[paramName];
+		}
+					 
 
 		// Get the date data from the url parameters.
 		var dateData = getUrlVars();
+
+		// If date was not set in url params, fetch it.
+		// By default we display the current theme if date params are not set in the url.
+		// but we still want to set the date datas in the dataData array for footer functionality
+		// purposes. The footer works as theme navigator based on date.
+		
+		// Set the year value.
+		if(dateData["year"] == null){
+			$.ajax({
+				url: 'controller/get_current_year.php',
+				async: false,
+				dataType: 'json',
+				success: function(year){
+					dateData["year"] = year;
+				},
+				error : function() {
+					//alert('Great Failure!');
+				}
+			});
+		}
+
+		// Set the month value.
+		if(dateData["month"] == null){
+			$.ajax({
+				url: 'controller/get_current_month.php',
+				async: false,
+				dataType: 'json',
+				success: function(month){
+					dateData["month"] = month;
+				},
+				error : function() {
+					//alert('Great Failure!');
+				}
+			});
+		}
 		
 		
 		var text_editor_width = 500;
@@ -51,7 +110,7 @@
 		
 		// hide sidebar
 		$('#canvas').css('left', '0');
-
+		//$('#footer').css('left', '0');
 
 		var text_box_colour_json = null;
 		
@@ -290,23 +349,70 @@
 		$('#sidebarslip').toggle(
 			function() {
 				$('#canvas').animate({left: 200});
-				$('#footer').animate({left: 200});
+				//$('#footer').animate({left: 200});
 			}, function() {
 				$('#canvas').animate({left:0});
-				$('#footer').animate({left:0});
+				//$('#footer').animate({left:0});
 			}
 		);
 
+
+		/**
+		 * Reload page with previous month's theme.
+		 */
+		$("#previous_theme_button").click(function() {
+			var current_month = parseInt(dateData["month"]);
+			if(current_month > 1){
+				var previous_month = current_month - 1;
+
+				var newURL = window.location.protocol + "//" + window.location.host + window.location.pathname;
+				newURL = newURL + "?month=" + previous_month;
+
+				// gross for now. Todo: use smooth ajax
+				window.location.href = newURL;
+
+			}
+			
+		});
+
+		/**
+		 * Reload page with next month's theme.
+		 */
+		$("#next_theme_button").click(function() {
+			var current_month = parseInt(dateData["month"]);
+			
+			if(current_month < 12){
+				var next_month = current_month + 1;
+
+				var newURL = window.location.protocol + "//" + window.location.host + window.location.pathname;
+				newURL = newURL + "?month=" + next_month;
+
+				// gross for now. Todo: use smooth ajax
+				window.location.href = newURL;
+			}
+		});
+
 	});
 	</script>
-
-<div id="sidebar">
-	<button id="contribute_text">contribute text</button>
-	<button id="contribute_image">contribute image</button>
-</div>
-
-
-<div id="canvas">
-	<div id="sidebarslip"><?php echo $theme_manager->getCurrentThemeTitle(); ?></div>
-	<?php include 'view/content_contribution_forms.php'; ?>
-</div>
+</head>
+<body>
+	<div id="sidebar">
+		<button id="contribute_text">contribute text</button>
+		<button id="contribute_image">contribute image</button>
+	</div>
+	
+	
+	<div id="canvas">
+		<div id="sidebarslip"><?php echo $theme_manager->getCurrentThemeTitle(); ?></div>
+		
+	</div>
+	
+	<div id="footer">
+		<span id="previous_theme_button">&lt;&lt;</span>&nbsp;<?php echo $theme_manager->getDisplayedThemeDate();?>&nbsp;<span id="next_theme_button">&gt;&gt;</span>
+	</div>
+	
+	<div id="forms" style="display:none">
+		<?php include 'view/content_contribution_forms.php';?>
+	</div>
+</body>
+</html>

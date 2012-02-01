@@ -2,8 +2,9 @@ html, body {
     margin: 0;
     padding: 0;
     border: 0;
+    font-family:"Times New Roman", Times, serif;
 }
-#sidebar, #canvas/*, #footer*/{
+#sidebar, #canvas, #footer{
     position: absolute;
 }
 #sidebar {
@@ -19,7 +20,6 @@ html, body {
 	padding-right: 4px;
     background:orange;
     cursor: pointer;
-    font-family:"Times New Roman", Times, serif;
     /*opacity:0.4;*/
 	/*filter:alpha(opacity=40);*/ /* For IE8 and earlier */
 }
@@ -31,12 +31,19 @@ html, body {
     background:green;
     min-height:100%;
 }
-/*
+
 #footer {
 	bottom: 0px;
-  	left: 200px;
+	
+  	/*left: 200px;*/
+  	width: 100%;
+  	
   	right: 0;
    	height:20px;   /* Height of the footer */
-   	background:blue;
-   	font-family:"Times New Roman", Times, serif;
-}*/
+   	background:yellow;
+   	text-align:center;
+}
+
+#next_theme_button, #previous_theme_button {
+	cursor: pointer;
+}
