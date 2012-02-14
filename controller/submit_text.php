@@ -6,8 +6,8 @@
 	$content = $_POST["text_content"];
 	
 	$theme_manager = new ThemeManager(); 
-	$year = $theme_manager->getDisplayedYear();
-	$month = $theme_manager->getDisplayedMonth();
+	$year = $theme_manager->getDisplayedThemeYear();
+	$month = $theme_manager->getDisplayedThemeMonth();
 
 	// Formulate Query
 	$query = sprintf(

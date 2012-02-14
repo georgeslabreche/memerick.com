@@ -29,6 +29,20 @@
 	// on page ready
 	$(document).ready(function() {
 
+		var $thank_you_dialog = $('<div></div>')
+			.html("Thank you.<br>Your contribution is pending approval.")
+			.dialog({
+				autoOpen: false,
+				modal: true,
+				resizable: false,
+				buttons: {
+					"ok": function() {
+						$(this).dialog("close");
+					}
+				}
+			
+		});
+
 		/**
 		 * Return an associative array of the page's url parameters.
 		 * For our index page this will be date data.
@@ -51,6 +65,10 @@
 		 */
 		function getUrlVar(paramName){
 			return getUrlVars()[paramName];
+		}
+
+		function displayThankYouDialog(){
+			$thank_you_dialog.dialog('open');
 		}
 					 
 
@@ -350,9 +368,9 @@
 						data: $("#text_contribution_form").serialize(),
 						success : function($data){
 						
-							// We've successfully contributed a text, let's create a dialog for it
-							// so that it can be displayed.
-							build_and_display_text_dialog($data);
+							// We've successfully contributed a text, let's display the dialog thanking the user
+							// for his contribution
+							displayThankYouDialog();
 							
 						},
 						error : function() {
@@ -392,6 +410,8 @@
 				"contribute": function() {
 					$('#image_contribution_form').submit();
 					$(this).dialog("close");
+
+					displayThankYouDialog();
 				},
 				"cancel": function(){
 					$(this).dialog("close");
