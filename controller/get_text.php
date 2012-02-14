@@ -10,7 +10,7 @@
 	// Formulate Query
 	$query = sprintf(
 		"SELECT * FROM text
-		WHERE year='%s' AND month='%s'",
+		WHERE year='%s' AND month='%s' AND safe='1'",
 				mysql_real_escape_string($year),
 				mysql_real_escape_string($month)
 		);

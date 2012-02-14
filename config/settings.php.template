@@ -23,4 +23,13 @@
 	 *	Large
 	 */
 	define("FLICKR_IMAGE_SIZE_TO_DISPLAY", "Small");
+	
+	/*
+	 * When users upload images, the images need to be approved by
+	 * an administrator.
+	 * 
+	 * An image is approved by being tagged with the value set here.
+	 * Tagging is done in Flickr.
+	 */ 
+	define("FLICK_IMAGE_SAFE_TAG", "safe");
 ?>	

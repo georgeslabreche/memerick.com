@@ -53,12 +53,15 @@
 	
 	// If theme exist for the given year and month
 	if($current_theme_tags != null){
+		
+		// Only get images that have been approved (tagged as safe)
+		$current_theme_tags = $current_theme_tags . "," . FLICK_IMAGE_SAFE_TAG;
 	
 		// Create instance of phpFlick so that we can post requests to Flickr
 		$phpFlickr = new phpFlickr(FLICKR_API_KEY, FLICKR_API_SECRET, true);
 		
 		// Search by the current theme tags and our Flickr account user id.
-		$current_theme_photos = $phpFlickr->photos_search(array("user_id"=>FLICKR_USER_ID, "tags"=>$current_theme_tags));
+		$current_theme_photos = $phpFlickr->photos_search(array("user_id"=>FLICKR_USER_ID, "tags"=>$current_theme_tags, "tag_mode"=>"all"));
 	
 		// Build json result and return it	
 		foreach ((array)$current_theme_photos['photo'] as $photo) {

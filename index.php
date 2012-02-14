@@ -57,40 +57,90 @@
 		// Get the date data associative array from the url parameters.
 		var dateData = getUrlVars();
 
-		// If date was not set in url params, fetch it.
+		
 		// By default we display the current theme if date params are not set in the url.
 		// but we still want to set the date datas in the dataData array for footer functionality
 		// purposes. The footer works as theme navigator based on date.
-		
-		// Set the year value.
-		if(dateData["year"] == null){
-			$.ajax({
-				url: 'controller/get_current_year.php',
-				async: false,
-				dataType: 'json',
-				success: function(year){
-					dateData["year"] = year;
-				},
-				error : function() {
-					//alert('Great Failure!');
-				}
-			});
-		}
 
-		// Set the month value.
-		if(dateData["month"] == null){
-			$.ajax({
-				url: 'controller/get_current_month.php',
-				async: false,
-				dataType: 'json',
-				success: function(month){
-					dateData["month"] = month;
-				},
-				error : function() {
-					//alert('Great Failure!');
+		$.ajax({
+			url: 'controller/get_current_year.php',
+			async: false,
+			dataType: 'json',
+			success: function(year){
+
+				// If year to display is in the future, then display current year.
+				if(dateData["year"] != null && dateData["year"] > year){
+
+					// reload the page so that we display the appropriate url params
+					var newURL = window.location.protocol + "//" + window.location.host + window.location.pathname;
+					newURL = newURL + "?year=" + year;
+	
+					// gross for now. Todo: use smooth ajax
+					window.location.href = newURL;
+					
+				}else{
+					// Set year to display if it was not set in url params.
+					if(dateData["year"] == null){
+						dateData["year"] = year;
+					}
+
+					// Set the current year.
+					dateData["current_year"] = year; 
 				}
-			});
-		}
+
+				
+			},
+			error : function() {
+				//alert('Great Failure!');
+			}
+		});
+		
+
+		// get the month value.
+		$.ajax({
+			url: 'controller/get_current_month.php',
+			async: false,
+			dataType: 'json',
+			success: function(month){
+
+				// If month to display is in the future, then display current month.
+				if(dateData["month"] != null && dateData["month"] > month){
+					// reload the page so that we display the appropriate url params
+					var newURL = window.location.protocol + "//" + window.location.host + window.location.pathname;
+					newURL = newURL + "?year=" + dateData["year"] + "&month=" + month;
+	
+					// gross for now. Todo: use smooth ajax
+					window.location.href = newURL;
+				}else{
+
+					// Set month to display if it was not set in url params.
+					if(dateData["month"] == null){
+						dateData["month"] = month;	
+					}	 
+
+					// Set the current month.
+					dateData["current_month"] = month;
+	
+					// If we are displaying the first month of the year then hide previous theme/month button.
+					if(dateData["month"] == 1){
+						$("#previous_theme_button").hide();
+					}
+	
+					// If we are displaying the present month, hide the next theme/month button.
+					if(dateData["month"] == dateData["current_month"]){
+						$("#next_theme_button").hide();
+					}
+				}
+				
+			},
+			error : function() {
+				//alert('Great Failure!');
+			}
+		});
+
+		
+
+
 		
 		
 		var text_editor_width = 500;
@@ -374,12 +424,13 @@
 		 * Reload page with previous month's theme.
 		 */
 		$("#previous_theme_button").click(function() {
-			var current_month = parseInt(dateData["month"]);
-			if(current_month > 1){
-				var previous_month = current_month - 1;
+			var month_displayed = parseInt(dateData["month"]);
+			
+			if(month_displayed > 1){
+				var month_to_display = month_displayed - 1;
 
 				var newURL = window.location.protocol + "//" + window.location.host + window.location.pathname;
-				newURL = newURL + "?month=" + previous_month;
+				newURL = newURL + "?month=" + month_to_display;
 
 				// gross for now. Todo: use smooth ajax
 				window.location.href = newURL;
@@ -392,16 +443,25 @@
 		 * Reload page with next month's theme.
 		 */
 		$("#next_theme_button").click(function() {
-			var current_month = parseInt(dateData["month"]);
-			
-			if(current_month < 12){
-				var next_month = current_month + 1;
+			// Current month, as the actual present month
+			var current_month = parseInt(dateData["current_month"]);
 
-				var newURL = window.location.protocol + "//" + window.location.host + window.location.pathname;
-				newURL = newURL + "?month=" + next_month;
+			// Month that is currently displayed
+			var month_displayed = parseInt(dateData["month"]);
 
-				// gross for now. Todo: use smooth ajax
-				window.location.href = newURL;
+			if(month_displayed < 12){
+				var month_to_display = month_displayed + 1;
+
+				// We don't want to go past the current month.
+				if(month_to_display <= current_month){
+
+					var newURL = window.location.protocol + "//" + window.location.host + window.location.pathname;
+					newURL = newURL + "?month=" + month_to_display;
+	
+					// gross for now. Todo: use smooth ajax
+					window.location.href = newURL;
+
+				}
 			}
 		});
 
