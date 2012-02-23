@@ -1,0 +1,25 @@
+ /* Colours for text box dialogs */
+#textbox_dialog_1 {
+	background-color: rgb(247,238,227);
+	color: rgb(75,84,94);
+}
+
+#textbox_dialog_2 {
+	background-color: rgb(230,240,100);
+	color: rgb(75,84,94);
+}
+
+#textbox_dialog_3 {
+	background-color: rgb(244,251,254);
+	color: rgb(75,84,94);
+}
+
+#textbox_dialog_4 {
+	background-color: rgb(240,238,234);
+	color: rgb(75,84,94);
+}
+
+#textbox_dialog_5 {
+	background-color: rgb(251,249,244);
+	color: rgb(75,84,94);
+}

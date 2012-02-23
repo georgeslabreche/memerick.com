@@ -1,0 +1,31 @@
+/* Background colour of sidebar. */
+#sidebar, #sidebarslip {
+	background-color:rgb(244,236,200);
+	color: (75,38,34);
+}
+
+/* Background colour of main screen. */
+#canvas {
+	background-image:url('images/patterns/02.jpg')
+}
+
+#footer{
+	color: rgb(75,84,94);
+}
+
+/* Colour of buttons. */
+#contribute_text_button, #contribute_image_button{
+	background-color:rgb(88,100,123);
+	border-color:rgb(170,186,223);
+	color: rgb(222,184,204);
+}
+
+/* Colour of the buttons when the mouse pointer hovers over a button. */
+#contribution_buttons li a:hover {
+    color:#fff;
+}
+
+/* Colour of the buttons when the mouse pointer clicks on a button. */
+contribution_buttons li a:active {
+
+}

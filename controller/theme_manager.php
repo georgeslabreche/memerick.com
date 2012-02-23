@@ -3,6 +3,20 @@
 class ThemeManager {
 
 	/**
+	 * Get CSS filename to use for currently displayed theme.
+	 */
+	public function getDisplayedThemeCssFilename(){
+		$filename = "css/theme-" . $this->getDisplayedThemeYear() . "-" . $this->getDisplayedThemeMonth() . ".css";
+		
+		if(file_exists($filename)){
+			return $filename;
+		}else{
+			// use default CSS file if theme one doesn't exist.
+			return "css/theme-default.css";
+		}
+	}
+	
+	/**
 	 * Get year from url param.
 	 * If it's not there then just get the present year.
 	 */
@@ -43,6 +57,7 @@ class ThemeManager {
 		return $mon;
 	}
 	
+	
 	/**
 	 * Get present theme tags.
 	 */
@@ -67,8 +82,8 @@ class ThemeManager {
 	/**
 	 * Get the title of the theme currently being displayed
 	 */
-	public function getCurrentThemeTitle(){
-		$current_theme_json = $this->getCurrentTheme();
+	public function getDisplayedThemeTitle(){
+		$current_theme_json = $this->getDisplayedTheme();
 		$current_theme_array = json_decode($current_theme_json, true);
 		return $current_theme_array[0];
 	}
@@ -76,7 +91,7 @@ class ThemeManager {
 	/**
 	 * Get the theme currently being displayed.
 	 */
-	public function getCurrentTheme(){
+	public function getDisplayedTheme(){
 		
 		$year = $this->getDisplayedThemeYear();
 		$month = $this->getDisplayedThemeMonth();
@@ -89,10 +104,19 @@ class ThemeManager {
 	 * Get list of current theme tags.
 	 * Returns a String of comma separated theme tags.
 	 */
-	public function getCurrentThemeTags(){
-		$current_theme_json = $this->getCurrentTheme();
+	public function getDisplayedThemeTags(){
+		$displayed_theme_json = $this->getDisplayedTheme();
+		$displayed_theme_array = json_decode($displayed_theme_json, true);
+		return $displayed_theme_array[2];
+	}
+	
+	/**
+	 * Get the description of the currently displayed theme.
+	 */
+	public function getDisplayedThemeDescription(){
+		$current_theme_json = $this->getDisplayedTheme();
 		$current_theme_array = json_decode($current_theme_json, true);
-		return $current_theme_array[2];
+		return $current_theme_array[1];
 	}
 	
 	/**
@@ -106,63 +130,7 @@ class ThemeManager {
 		
 		return $month_name . " " . $year;
 	}
-	
-	/**
-	 * Get text box colours of displayed theme.
-	 */
-	public function getDisplayedThemeTextBoxColours(){
-		$year = $this->getDisplayedThemeYear();
-		$month = $this->getDisplayedThemeMonth();
 
-		return $this->getTextBoxColours($year, $month);
-	}
-	
-	/**
-	 * Get background colours of displayed theme.
-	 */
-	public function getDisplayedThemeBackgroundColours(){
-		$year = $this->getDisplayedThemeYear();
-		$month = $this->getDisplayedThemeMonth();
-
-		return $this->getBackgroundColours($year, $month);
-	}
-	
-	/**
-	 * Get text box colours based on year and month.
-	 * 
-	 * @param unknown_type $year
-	 * @param unknown_type $month
-	 */
-	public function getTextBoxColours($year, $month){
-		// Formulate Query
-		$query = sprintf(
-				"SELECT background_colour, font_colour
-				FROM theme_text_box_colours WHERE year='%s' AND month='%s'",
-				mysql_real_escape_string($year),
-				mysql_real_escape_string($month)
-			);
-		
-		return $this->executeQuery($query);
-	}
-	
-	/**
-	 * Get background colours based on year and month.
-	 * 
-	 * @param unknown_type $year
-	 * @param unknown_type $month
-	 */
-	public function getBackgroundColours($year, $month){
-		
-		// Formulate query
-		$query = sprintf(
-				"SELECT content_colour, sidebar_colour
-				FROM theme_background_colours WHERE year='%s' AND month='%s'",
-				mysql_real_escape_string($year),
-				mysql_real_escape_string($month)
-			);
-		
-		return $this->executeQuery($query);
-	}
 	
 	/**
 	 * Get the a theme based on year and month.
@@ -180,6 +148,18 @@ class ThemeManager {
 			);
 			
 		return $this->executeQuery($query);
+	}
+	
+	/**
+	 * Get theme tags for given year and month.
+	 * 
+	 * @param unknown_type $year
+	 * @param unknown_type $month
+	 */
+	public function getThemeTags($year, $month){
+		$theme_json = $this->getTheme($year, $month);
+		$theme_array = json_decode($theme_json, true);
+		return $theme_array[2];
 	}
 	
 	/**

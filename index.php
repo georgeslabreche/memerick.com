@@ -3,13 +3,17 @@
 	require_once('config/database.php');
 	require_once('controller/theme_manager.php');
 	
-	$theme_manager = new ThemeManager(); 
+	$theme_manager = new ThemeManager();
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
 	<link rel="stylesheet" type="text/css" href="css/sidebar.css" />
+	<link rel="stylesheet" type="text/css" href="css/buttons.css" />
+	<link rel="stylesheet" type="text/css" href="css/textbox-dialogs.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $theme_manager->getDisplayedThemeCssFilename()?>" /> 
+	
 	<link rel="stylesheet" type="text/css" href="js/cleditor/jquery.cleditor.css" />
 	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css" />
 	<link rel="stylesheet" type="text/css" href="css/memerick-jquery-ui.css" />
@@ -156,11 +160,6 @@
 			}
 		});
 
-		
-
-
-		
-		
 		var text_editor_width = 500;
 		var text_editor_height = 250;
 
@@ -169,54 +168,11 @@
 			})[0];
 		
 		// hide sidebar
-		$('#canvas').css('left', '0');
-		//$('#footer').css('left', '0');
+		$('#canvas').css({left: "0em"});
 
-		var text_box_colour_json = null;
-		
 		var $document_width = $(document).width();
 		var $document_height = $(document).height();
 
-		// Get the background colours
-		// Blocking operation because styling the site will require these values.
-		$.ajax({
-			url: 'controller/get_background_colours.php',
-			data: dateData,
-			dataType: 'json',
-			success: function(background_colours_json){
-			
-				// Get retrieved background colours 
-				var content_colour = background_colours_json[0]['content_colour'];
-				var sidebar_colour = background_colours_json[0]['sidebar_colour'];
-
-				// Apply retrieved background colours
-				$('#canvas').css('background-color', content_colour);
-				$('#footer').css('background-color', content_colour);
-				$('#sidebarslip').css('background-color', sidebar_colour);
-				$('#sidebar').css('background-color', sidebar_colour);
-			},
-			error : function() {
-				//alert('Great Failure!');
-			}
-		});
-		
-		// Get the text box colours
-		// Blocking operation because creating the text boxes will require these values.
-		$.ajax({
-			url: 'controller/get_text_box_colours.php',
-			async: false,
-			data: dateData,
-			dataType: 'json',
-			success: function(data){
-				// This data will be used later, when creating the text boxes dialogs.
-				text_box_colour_json = data;
-			},
-			error : function() {
-				//alert('Great Failure!');
-			}
-		});
-
-		
 		function generate_random_coordinates(){
 			var x = Math.floor(Math.random() * ($document_width - 400)) + 50;
 			var y = Math.floor(Math.random() * ($document_height - 400))  + 50;
@@ -224,12 +180,13 @@
 			return [x, y];
 		}
 		
-		function build_and_display_text_dialog(content, background_colour, font_colour){
+		function build_and_display_text_dialog(content, textbox_dialog_css_index){
 			var coordinates = generate_random_coordinates();
 
 			//var zIndex = Math.floor(Math.random() * 2001) + 1000; 
+			var div_element = "<div id='textbox_dialog_" + textbox_dialog_css_index + "'></div>";
 		
-			var $text_dialog = $('<div></div>')
+			var $text_dialog = $(div_element)
 						.html(content)
 						.dialog({
 							autoOpen: false,
@@ -245,8 +202,8 @@
 			})
 			
 			// Style the text dialog
-			$text_dialog.css('background-color', background_colour);
-			$text_dialog.css('color', font_colour);
+			//$text_dialog.css('background-color', background_colour);
+			//$text_dialog.css('color', font_colour);
 			
 			$text_dialog.dialog('open');
 		}
@@ -292,29 +249,25 @@
 			dataType: 'json',
 			success: function(data){
 
-				var text_dialog_colours_index = 0;
+				var textbox_dialog_css_index = 1;
 
 				// For each text fetched
 				jQuery.each(data, function(index, object) {
-
-					// Get colours and text content for the text dialog that we will build
-					var background_color = text_box_colour_json[text_dialog_colours_index]['background_colour'];
-					var font_color =  text_box_colour_json[text_dialog_colours_index]['font_colour'];
-
+			
 					// Get actual textual content 
 					var text_content = object['content'];
 
 					// Build the text dialog box
-					build_and_display_text_dialog(text_content, background_color, font_color);
+					build_and_display_text_dialog(text_content, textbox_dialog_css_index);
 
 					// Increment text dialog colour index so that the next dialog we will create
 					// will have the next colour pair.
-					text_dialog_colours_index++;
+					textbox_dialog_css_index++;
 
-					// Reset the text dialog colours index if we have gone through all the colour pairs.
+					// Reset the text box dialog css index if we have gone through all the css colour pairs.
 					// Restart from the first pair of colours.
-					if(text_dialog_colours_index >= text_box_colour_json.length){
-						text_dialog_colours_index = 0;
+					if(textbox_dialog_css_index > 5){
+						textbox_dialog_css_index = 1;
 					}
 				});
 			},
@@ -421,21 +374,19 @@
 			}
 		});
 		
-		$("#contribute_text").click(function() {
+		$("#contribute_text_button").click(function() {
 			$("#text_contribution_div").dialog("open");				
 		});
 			
-		$("#contribute_image").click(function() {
+		$("#contribute_image_button").click(function() {
 			$("#image_contribution_div").dialog("open");
 		});
 
 		$('#sidebarslip').toggle(
 			function() {
-				$('#canvas').animate({left: 200});
-				//$('#footer').animate({left: 200});
+				$('#canvas').animate({left: "12em"});
 			}, function() {
-				$('#canvas').animate({left:0});
-				//$('#footer').animate({left:0});
+				$('#canvas').animate({left: "0em"});
 			}
 		);
 
@@ -490,13 +441,44 @@
 </head>
 <body>
 	<div id="sidebar">
-		<button id="contribute_text">contribute text</button>
-		<button id="contribute_image">contribute image</button>
+		
+		<div id="sidebar_textual_content">
+			<br/>
+			<div id="project_description">
+				<div id="description_title">
+					Project Description
+				</div>
+				<div id="description_content">
+					What pleases you or calls you forward from your own daze into enthusiasm? Which are the brightest moments of today and what will you look forward to retelling, over drinks or in a secret message? What things are there that sit inside you and wait, unabashedly looking to be fascinated and swept up?
+					<br/>
+					<br/>
+					The Please Project is looking for your pleasure, as you find it in these monthly themes. We are delighted at your contributions.
+				</div>
+			</div>
+			
+			<br/><br/>
+			
+			<div id="theme_description">
+				<div id="description_title">
+					Theme Description
+				</div>
+				<div id="description_content">
+					<?php echo $theme_manager->getDisplayedThemeDescription();?>
+				</div>
+			</div>
+		</div>
+		
+		<div id="sidebar_buttons" align="center">
+			<ul id="contribution_buttons">
+    			<li><a id="contribute_text_button"><span>contribute text</span></a></li>
+   				<li><a id="contribute_image_button"><span>contribute image</span></a></li>
+			</ul>
+		</div>
 	</div>
 	
 	
 	<div id="canvas">
-		<div id="sidebarslip"><?php echo $theme_manager->getCurrentThemeTitle(); ?></div>
+		<div id="sidebarslip"><?php echo $theme_manager->getDisplayedThemeTitle(); ?></div>
 		
 	</div>
 	

@@ -4,18 +4,13 @@
 	require_once('theme_manager.php');
 
 	$content = $_POST["text_content"];
+	$year = $_POST["year"];
+	$month = $_POST["month"];
 	
-	$theme_manager = new ThemeManager(); 
-	$year = $theme_manager->getDisplayedThemeYear();
-	$month = $theme_manager->getDisplayedThemeMonth();
-
 	// Formulate Query
 	$query = sprintf(
-		"INSERT INTO text(title, content, author, theme_id, year, month) VALUES('%s', '%s', '%s', '%s', '%s', '%s')",
-		mysql_real_escape_string($title),
+		"INSERT INTO text(content, year, month) VALUES('%s', '%s', '%s')",
 		mysql_real_escape_string($content),
-		mysql_real_escape_string($author),
-		mysql_real_escape_string($theme_id),
 		mysql_real_escape_string($year),
 		mysql_real_escape_string($month));
 	

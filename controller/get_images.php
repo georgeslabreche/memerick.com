@@ -49,7 +49,7 @@
 	
 	// Get image tags for the current theme
 	$theme_manager = new ThemeManager();
-	$current_theme_tags = $theme_manager->getCurrentThemeTags();
+	$current_theme_tags = $theme_manager->getDisplayedThemeTags();
 	
 	// If theme exist for the given year and month
 	if($current_theme_tags != null){
