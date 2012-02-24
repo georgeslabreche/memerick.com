@@ -1,4 +1,9 @@
 <?php
+	
+	// This script is expensive.
+	// Remove memory limit to execute it.
+	ini_set('memory_limit','-1');
+
 	require_once('../config/settings.php');
 	require_once('../config/database.php');
 	require_once('../phpFlickr/phpFlickr.php');

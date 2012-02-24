@@ -1,8 +1,22 @@
 /* We don't want to display the headers of the dialogs. */
-.ui-dialog .ui-dialog-titlebar { 
-	display:none; 
+div.headerless_dialog.ui-dialog .ui-dialog-titlebar{ 
+	display: none;  
 }
 
+
+/* For the text dialogs, we want to display the header for those */
+/* Do display titlebar for text dialogs. */
+div.text_dialog.ui-dialog .ui-dialog-titlebar{ 
+	padding: 0em 0em 0em 0em; 
+	position: relative;  
+}
+
+/* Hide 'x' close button for text dialog header */ 
+div.text_dialog.ui-dialog .ui-dialog-titlebar-close{ 
+	display: none; 
+}
+
+/* Style content dialog */
 .ui-dialog .ui-dialog-content { 
 	border: 0; 
 	padding: .5em 1em; 
@@ -11,3 +25,6 @@
 	font-family:"Times New Roman", Times, serif;
 	font-size:0.8em;
 }
+
+
+

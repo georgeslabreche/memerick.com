@@ -1,25 +1,63 @@
- /* Colours for text box dialogs */
-#textbox_dialog_1 {
+/* -------------------------*/ 
+/* Colours for text dialogs */
+/* -------------------------*/ 
+
+/* --------------------------------------- */
+ 
+div.text_dialog_1 .ui-dialog-content{
 	background-color: rgb(247,238,227);
 	color: rgb(75,84,94);
 }
 
-#textbox_dialog_2 {
+div.text_dialog_1 .ui-widget-header { 
+	background: rgb(247,238,227);
+}
+
+/* --------------------------------------- */
+
+div.text_dialog_2 .ui-dialog-content{
 	background-color: rgb(230,240,100);
 	color: rgb(75,84,94);
 }
 
-#textbox_dialog_3 {
+div.text_dialog_2 .ui-widget-header { 
+	background: rgb(230,240,100);
+}
+
+
+/* --------------------------------------- */
+
+div.text_dialog_3 .ui-dialog-content{
 	background-color: rgb(244,251,254);
 	color: rgb(75,84,94);
 }
 
-#textbox_dialog_4 {
+div.text_dialog_3 .ui-widget-header { 
+	background: rgb(244,251,254);
+}
+
+
+/* --------------------------------------- */
+
+div.text_dialog_4 .ui-dialog-content{
 	background-color: rgb(240,238,234);
 	color: rgb(75,84,94);
 }
 
-#textbox_dialog_5 {
+div.text_dialog_4 .ui-widget-header { 
+	background: rgb(240,238,234);
+}
+
+
+/* --------------------------------------- */
+
+div.text_dialog_5 .ui-dialog-content{
 	background-color: rgb(251,249,244);
 	color: rgb(75,84,94);
 }
+
+div.text_dialog_5 .ui-widget-header { 
+	background: rgb(251,249,244);
+}
+
+/* --------------------------------------- */

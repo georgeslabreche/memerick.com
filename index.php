@@ -33,9 +33,12 @@
 	// on page ready
 	$(document).ready(function() {
 
+		var NUMBER_OF_TEXT_BOX_COLOURS = 5;
+
 		var $thank_you_dialog = $('<div></div>')
 			.html("Thank you.<br>Your contribution is pending approval.")
 			.dialog({
+				dialogClass: 'headerless_dialog',
 				autoOpen: false,
 				modal: true,
 				resizable: false,
@@ -163,9 +166,11 @@
 		var text_editor_width = 500;
 		var text_editor_height = 250;
 
+		// Created cleditor text editor.
 		var text_editor = $("#text_content").cleditor({
 				controls: "bold italic underline"
 			})[0];
+
 		
 		// hide sidebar
 		$('#canvas').css({left: "0em"});
@@ -184,22 +189,27 @@
 			var coordinates = generate_random_coordinates();
 
 			//var zIndex = Math.floor(Math.random() * 2001) + 1000; 
-			var div_element = "<div id='textbox_dialog_" + textbox_dialog_css_index + "'></div>";
-		
-			var $text_dialog = $(div_element)
+			var dialog_class ="text_dialog text_dialog_" + textbox_dialog_css_index;
+			
+			var $text_dialog = $("<div></div>")
 						.html(content)
 						.dialog({
+							dialogClass: dialog_class, // give dialog class name so we can theme it in css
 							autoOpen: false,
 							position: [coordinates[0], coordinates[1]],
-							resizable: false
+							resizable: true,
+							closeOnEscape: false,
+							height: 200
 							//zIndex = zIndex
 						});
 				
 			// Make entire dialog draggable, not just the header
+			/*
 			$text_dialog.data('dialog').uiDialog.draggable('option', {
 				cancel: '.ui-dialog-titlebar-close',
-				handle: '.ui-dialog-titlebar, .ui-dialog-content'
-			})
+				handle: '.ui-dialog-content',
+			})*/
+			
 			
 			// Style the text dialog
 			//$text_dialog.css('background-color', background_colour);
@@ -215,25 +225,30 @@
 
 			//var zIndex = Math.floor(Math.random() * 2001) + 1000;  
 
-			var $image_dialog = $('<div></div>')
+			var $image_dialog = $("<div></div>")
 				.dialog({
+					dialogClass: 'image_dialog headerless_dialog',  // give dialog class name so we can theme it in css
 					autoOpen: false,
 					position: [coordinates[0], coordinates[1]],
 					//zIndex: zIndex,
 					height: photo_display_rendition_height,
 					width: photo_display_rendition_width,
-					resizable: false
+					resizable: false,
+					closeOnEscape: false
 				});
-		
+
+			// Hide header
+			
 			// Make entire dialog draggalble, not just the header
 			$image_dialog.data('dialog').uiDialog.draggable('option', {
 				cancel: '.ui-dialog-titlebar-close',
-				handle: '.ui-dialog-titlebar, .ui-dialog-content'
+				handle: '.ui-dialog-content'
+				//handle: .ui-dialog-content'
 			})
 	
 			// Set the background to be the image located at the image url
 			$image_dialog.css('background', 'url(' +  photo_display_rendition_url + ')');
-			$image_dialog.css('background-repeat', 'no-repeat');
+			$image_dialog.css('background-repeat', 'no-repeat');  
 			
 			$image_dialog.dialog('open');
 		}
@@ -266,7 +281,7 @@
 
 					// Reset the text box dialog css index if we have gone through all the css colour pairs.
 					// Restart from the first pair of colours.
-					if(textbox_dialog_css_index > 5){
+					if(textbox_dialog_css_index > NUMBER_OF_TEXT_BOX_COLOURS){
 						textbox_dialog_css_index = 1;
 					}
 				});
@@ -304,6 +319,7 @@
 			
 		
 		$("#text_contribution_div").dialog({
+			dialogClass: 'headerless_dialog',
 			autoOpen: false,
 			modal: true,
 			height: text_editor_height+120,
@@ -314,7 +330,7 @@
 				
 					// apply check length rules at some point
 					
-					// ajax post
+					// ajax post to submit text
 					$.ajax({
 						type : 'POST',
 						url : 'controller/submit_text.php',
@@ -330,9 +346,12 @@
 							//alert('Great Failure!');
 						}
 					});
-					
+
+					// Close dialog after text is submitted
 					$(this).dialog("close");
 				},
+
+				// Close dialog if we hit on cancel button
 				"cancel": function(){
 					$(this).dialog("close");
 				}
@@ -355,6 +374,7 @@
     
 		
 		$("#image_contribution_div").dialog({
+			dialogClass: 'headerless_dialog',
 			autoOpen: false,
 			height: 350,
 			width: 350,
@@ -486,8 +506,12 @@
 		<span id="previous_theme_button">&lt;&lt;</span>&nbsp;<?php echo $theme_manager->getDisplayedThemeDate();?>&nbsp;<span id="next_theme_button">&gt;&gt;</span>
 	</div>
 	
+
 	<div id="forms" style="display:none">
 		<?php include 'view/content_contribution_forms.php';?>
 	</div>
+	
+	
+	
 </body>
 </html>
