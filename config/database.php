@@ -11,22 +11,6 @@
 		mysql_select_db(DB_NAME) or die("Unable to select database");
 	}
 	
-	function execute_query($query){
-		// Perform Query
-		$result = mysql_query($query);
-		
-		$rows = array();
-		
-		while($row = mysql_fetch_assoc($result)) {
-			$rows[] = $row;
-		}
-		
-		// Free the resources associated with the result set
-		mysql_free_result($result);	
-	
-		return json_encode($rows);
-	}
-	
-	
+
 	db_connect();
 ?>	

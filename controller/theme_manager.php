@@ -1,6 +1,12 @@
 <?php
+include_once PROJECT_ROOT . 'data/database_manager.php';
 
 class ThemeManager {
+	private $database_manager;
+	
+	function __construct() {
+		$this->database_manager = new DatabaseManager();
+	}
 
 	/**
 	 * Get CSS filename to use for currently displayed theme.
@@ -138,16 +144,7 @@ class ThemeManager {
 	 * @param unknown_type $month
 	 */
 	public function getTheme($year, $month){
-	
-		// Formulate Query
-		$query = sprintf(
-				"SELECT name, description, tags
-				FROM themes WHERE year='%s' AND month='%s'",
-				mysql_real_escape_string($year),
-				mysql_real_escape_string($month)
-			);
-			
-		return $this->executeQuery($query);
+		return $this->database_manager->getTheme($year, $month);
 	}
 	
 	/**
@@ -161,23 +158,6 @@ class ThemeManager {
 		$theme_array = json_decode($theme_json, true);
 		return $theme_array[2];
 	}
-	
-	/**
-	 * Execute a query and return the result in json format.
-	 * 
-	 * @param unknown_type $query
-	 */
-	private function executeQuery($query){
-		// Perform Query.
-		$result = mysql_query($query);
-		
-		// Fetch row.
-		$result_row = mysql_fetch_row($result);
-		
-		// Return theme name
-		return json_encode($result_row);
-	}
-	
-	
+
 }
 ?>

@@ -1,5 +1,10 @@
 
 <?php
+	// Timezone settings
+	date_default_timezone_set('America/New_York');
+	
+	// Document root.
+	define("PROJECT_ROOT", $_SERVER['DOCUMENT_ROOT'].'/memerick/');
 	
 	// Database Settings
 	define("DB_DOMAIN", "");
