@@ -30,6 +30,9 @@
 
 	
 	<script type="text/javascript">
+
+	// Hotfix for this issue: http://bugs.jqueryui.com/ticket/4163
+	document.onselectstart = function () { return false; };
 	
 	// on page ready
 	$(document).ready(function() {
