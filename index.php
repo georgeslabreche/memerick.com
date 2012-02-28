@@ -36,6 +36,7 @@
 
 		var NUMBER_OF_TEXT_BOX_COLOURS = 5;
 
+
 		// Dialog thanking the user for contributing to the project.
 		var $thank_you_dialog = $('<div></div>')
 			.html("Thank you.<br>Your contribution is pending approval.")
@@ -175,8 +176,6 @@
 			})[0];
 
 		
-		// hide sidebar
-		$('#canvas').css({left: "0em"});
 
 		var $document_width = $(document).width();
 		var $document_height = $(document).height();
@@ -332,7 +331,9 @@
 			}
 		});
 			
-		
+		/*
+		 * Text contribution form dialog.
+		 */
 		$("#text_contribution_div").dialog({
 			dialogClass: 'headerless_dialog',
 			autoOpen: false,
@@ -387,11 +388,12 @@
         $('#image_contribution_form').ajaxForm(function() { 
         }); 
     
-		
+		/*
+		 * Image contribution form dialog.
+		 */
 		$("#image_contribution_div").dialog({
 			dialogClass: 'headerless_dialog',
 			autoOpen: false,
-			height: 350,
 			width: 350,
 			modal: true,
 			buttons: {
@@ -408,23 +410,22 @@
 			close: function() {
 			}
 		});
-		
+
+		/*
+		 * Open dialog form to contribute text when clicking the
+		 * contribute text button.
+		 */	
 		$("#contribute_text_button").click(function() {
 			$("#text_contribution_div").dialog("open");				
 		});
-			
+
+		/*
+		 * Open dialog form to contribute image when clicking the
+		 * contribute image button.
+		 */	
 		$("#contribute_image_button").click(function() {
 			$("#image_contribution_div").dialog("open");
 		});
-
-		$('#sidebarslip').toggle(
-			function() {
-				$('#canvas').animate({left: "12em"});
-			}, function() {
-				$('#canvas').animate({left: "0em"});
-			}
-		);
-
 
 		/**
 		 * Reload page with previous month's theme.
@@ -482,23 +483,77 @@
 		)
 
 
+		/* 
+		 * Clicking on the sidebar  will toggle it out/in of the canvas.
+		 *
+		 * When toggled out, a far right vertical portion of the sidebar is
+		 * still visible so that we can click on it to make the menu appear
+		 * again. 
+		 */
+		$('.sidebar').toggle(
+			function() {
+				$('.sidebar').animate({"left": "+=12em"}, "slow");
+			}, function() {
+				$('.sidebar').animate({"left": "-=12em"}, "slow");
+			}
+		);
+
+		/* 
+		 * Use this if we want to use a sidebar slip to toggle the sidebar instead
+		 * of a sidebar's vertical slip. 
+		 */
+		/*
+		$('.sidebar_slip').toggle(
+			function() {
+				$('.sidebar').animate({"left": "+=15em"}, "slow");
+				$('.sidebar_slip').animate({"left": "-=15em"}, "slow");
+			}, function() {
+				$('.sidebar').animate({"left": "-=15em"}, "slow");
+				$('.sidebar_slip').animate({"left": "+=15em"}, "slow");
+			}
+		);*/
+
+		
+		// Hide sidebar
+		$('.sidebar').animate({"left": "-=12em"}, 2000);
+
+		// If using sidebar slip, use this instead:
+		//$('.sidebar').animate({"left": "-=15em"}, "slow");
+		//$('.sidebar_slip').animate({"left": "+=15em"}, "slow");
+
 	});
 
 	
-	</script>
+	</script>	
 </head>
+
 <body>
-	<div id="sidebar">
-		<?php include 'view/sidebar.php';?>
-	</div>
+	<div class="sidebar">
+		<div class="sidebar_overlay"></div>
+		<div class="sidebar_content">
+			<?php include 'view/sidebar.php';?>
+		</div>
 		
-	<div id="canvas">
-		<?php include 'view/canvas.php';?>
 	</div>
+	
+	<!-- 
+		Uncomment this if we want to toggle the sidebar with a
+		sidebar slip instead of clicking on the sidebar itself.
+		
+		Needs to be styled. Too ugly right now to use this approach.
+	
+	 -->
+	<?php /*
+	<div class="sidebar_slip"><?php echo $theme_manager->getDisplayedThemeTitle(); ?></div>
+	*/ ?>
+	 
+	<div id="logo_container"></div>
+
 	
 	<div id="footer">
 		<?php include 'view/footer.php';?>
 	</div>
+
 
 	<div id="forms" style="display:none">
 		<?php include 'view/content_contribution_forms.php';?>

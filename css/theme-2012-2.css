@@ -1,19 +1,24 @@
+/* Background image */
+html, body {
+    background-image:url('images/patterns/02.jpg');
+}
+
+/* Logo for this theme */
+#logo_container{
+	background-image:url('images/logos/project_logo_01.gif');
+}
+
 /* Background colour of sidebar. */
-#sidebar, #sidebarslip {
-	background-color:rgb(244,236,200);
-	color: (75,38,34);
+.sidebar_overlay, .sidebar_slip{
+	background: #faf;
 }
 
-/* Background colour of main screen. */
-#canvas {
-	background-image:url('images/patterns/02.jpg')
-}
-
+/* Text colour of footer */
 #footer{
 	color: rgb(75,84,94);
 }
 
-/* Colour of buttons. */
+/* Button colours. */
 .contribution_button{
 	background-color:rgb(88,100,123);
 	border-color:rgb(170,186,223);

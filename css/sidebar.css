@@ -1,3 +1,37 @@
+.sidebar {
+	position: relative;
+	float: left;
+}
+
+.sidebar_overlay, .sidebar_slip {
+	opacity: 0.4;
+	-moz-opacity: 0.4;
+	filter:alpha(opacity=40);
+}
+
+.sidebar_overlay {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+}
+
+.sidebar_content {
+	position: relative; /* Fixes the z-index */
+	float: left;
+	font-size: 0.8em;
+	padding: 0.5em;
+	width: 15em;
+}
+
+.sidebar_slip {
+	position: relative; /* Fixes the z-index */
+	float: left;
+    cursor: pointer;
+}
+
+
 #description_title{
 	font-weight:bold;
 	padding-left: 0.2em;
@@ -6,16 +40,6 @@
 #description_content{
 	/*text-align:justify;*/
 	padding: 0.7em;
-}
-
-#sidebar_textual_content{
-	position: absolute;
-	top: 0em;
-    left: 0em;
-    right: 0em;
-    bottom: 0em;
-    min-height:100%;
-	
 }
 
 #project_description{
