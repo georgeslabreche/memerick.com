@@ -14,18 +14,18 @@
 }
 
 /* Colour of buttons. */
-#contribute_text_button, #contribute_image_button{
+.contribution_button{
 	background-color:rgb(88,100,123);
 	border-color:rgb(170,186,223);
 	color: rgb(75,38,34);
 }
 
 /* Colour of the buttons when the mouse pointer hovers over a button. */
-#contribution_buttons li a:hover {
+.contribution_button:hover {
     color:#fff;
 }
 
 /* Colour of the buttons when the mouse pointer clicks on a button. */
-contribution_buttons li a:active {
-
+.contribution_button:active {
+	color:#ff1;
 }

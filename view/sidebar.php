@@ -26,9 +26,15 @@
 	
 	<br/><br/>
 
-	<div id="sidebar_buttons" align="center">
-		<button type="button" id="contribute_text_button" class="contribution_button ui-state-default ui-corner-all">contribute text</button>
-		<button type="button" id="contribute_image_button" class="contribution_button ui-state-default ui-corner-all">contribute image</button>
+	<div id="contribution_buttons" align="center">
+		<div id="contribution_button_container">
+			<button type="button" id="contribute_text_button" class="contribution_button ui-state-default ui-corner-all">contribute text</button>
+		</div>
+		
+		<div id="contribution_button_container">
+			<button type="button" id="contribute_image_button" class="contribution_button ui-state-default ui-corner-all">contribute image</button>
+		</div>
+		
 	</div>
 </div>
 

@@ -1,0 +1,40 @@
+#description_title{
+	font-weight:bold;
+	padding-left: 0.2em;
+}
+
+#description_content{
+	/*text-align:justify;*/
+	padding: 0.7em;
+}
+
+#sidebar_textual_content{
+	position: absolute;
+	top: 0em;
+    left: 0em;
+    right: 0em;
+    bottom: 0em;
+    min-height:100%;
+	
+}
+
+#project_description{
+	height:40%;
+}
+
+#theme_description{
+	height:30%;
+}
+
+#contribution_buttons{
+	height:10%;
+	padding-bottom:1em;
+}
+
+#contribution_button_container{
+	padding:0.2em;	
+}
+
+.contribution_button{
+	width:10em;	
+}

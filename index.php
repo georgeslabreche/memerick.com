@@ -11,6 +11,7 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="css/layout.css" />
 	<link rel="stylesheet" type="text/css" href="css/textbox-dialogs.css" />
+	<link rel="stylesheet" type="text/css" href="css/sidebar.css" />
 	<link rel="stylesheet" type="text/css" href="css/footer.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $theme_manager->getDisplayedThemeCssFilename()?>" /> 
 	
