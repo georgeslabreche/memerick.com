@@ -9,9 +9,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
-	<link rel="stylesheet" type="text/css" href="css/sidebar.css" />
-	<link rel="stylesheet" type="text/css" href="css/buttons.css" />
+	<link rel="stylesheet" type="text/css" href="css/layout.css" />
 	<link rel="stylesheet" type="text/css" href="css/textbox-dialogs.css" />
+	<link rel="stylesheet" type="text/css" href="css/footer.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $theme_manager->getDisplayedThemeCssFilename()?>" /> 
 	
 	<link rel="stylesheet" type="text/css" href="js/cleditor/jquery.cleditor.css" />
@@ -35,6 +35,7 @@
 
 		var NUMBER_OF_TEXT_BOX_COLOURS = 5;
 
+		// Dialog thanking the user for contributing to the project.
 		var $thank_you_dialog = $('<div></div>')
 			.html("Thank you.<br>Your contribution is pending approval.")
 			.dialog({
@@ -87,6 +88,7 @@
 		// but we still want to set the date datas in the dataData array for footer functionality
 		// purposes. The footer works as theme navigator based on date.
 
+		// Get the current year
 		$.ajax({
 			url: 'controller/get_current_year.php',
 			async: false,
@@ -121,7 +123,7 @@
 		});
 		
 
-		// get the month value.
+		// Get the current month.
 		$.ajax({
 			url: 'controller/get_current_month.php',
 			async: false,
@@ -148,12 +150,12 @@
 	
 					// If we are displaying the first month of the year then hide previous theme/month button.
 					if(dateData["month"] == 1){
-						$("#previous_theme_button").hide();
+						$("#theme_navigation_button_previous").hide();
 					}
 	
 					// If we are displaying the present month, hide the next theme/month button.
 					if(dateData["month"] == dateData["current_month"]){
-						$("#next_theme_button").hide();
+						$("#theme_navigation_button_next").hide();
 					}
 				}
 				
@@ -178,13 +180,20 @@
 		var $document_width = $(document).width();
 		var $document_height = $(document).height();
 
+		/*
+		 * Generate random x,y coordinates to be used by the dialogs what will
+		 * display user submitted contributions
+		 */
 		function generate_random_coordinates(){
 			var x = Math.floor(Math.random() * ($document_width - 400)) + 50;
 			var y = Math.floor(Math.random() * ($document_height - 400))  + 50;
 			
 			return [x, y];
 		}
-		
+
+		/**
+		 * Build and display dialogs for user submitted text contributions. 
+		 */
 		function build_and_display_text_dialog(content, textbox_dialog_css_index){
 			var coordinates = generate_random_coordinates();
 
@@ -218,6 +227,9 @@
 			$text_dialog.dialog('open');
 		}
 
+		/*
+		 * Build and display dialogs for user submitted image contributions.
+		 */
 		function build_and_display_image_dialog(photo_page_url, photo_display_rendition_url, photo_display_rendition_width, photo_display_rendition_height){
 
 			// Calculate random coordinates for the dialog
@@ -253,10 +265,9 @@
 			$image_dialog.dialog('open');
 		}
 		
-		
-		
+
 		/**
-		 * Retrieve the text for this month's theme
+		 * Retrieve the text for the theme being displayed
 		 */
 		$.ajax({
 			url: 'controller/get_text.php',
@@ -291,7 +302,10 @@
 			}
 		});
 		
-		
+
+		/**
+		 * Retrieve the images for the theme being displayed
+		 */
 		$.ajax({
 			url: 'controller/get_images.php',
 			data: dateData,
@@ -414,7 +428,7 @@
 		/**
 		 * Reload page with previous month's theme.
 		 */
-		$("#previous_theme_button").click(function() {
+		$("#theme_navigation_button_previous").click(function() {
 			var month_displayed = parseInt(dateData["month"]);
 			
 			if(month_displayed > 1){
@@ -433,7 +447,7 @@
 		/**
 		 * Reload page with next month's theme.
 		 */
-		$("#next_theme_button").click(function() {
+		$("#theme_navigation_button_next").click(function() {
 			// Current month, as the actual present month
 			var current_month = parseInt(dateData["current_month"]);
 
@@ -456,62 +470,38 @@
 			}
 		});
 
+		// Contribution button hover behaviour.
+		$(".contribution_button").hover(
+			function(){ 
+				$(this).addClass("ui-state-hover"); 
+			},
+			function(){ 
+				$(this).removeClass("ui-state-hover"); 
+			}
+		)
+
+
 	});
+
+	
 	</script>
 </head>
 <body>
 	<div id="sidebar">
-		
-		<div id="sidebar_textual_content">
-			<br/>
-			<div id="project_description">
-				<div id="description_title">
-					Project Description
-				</div>
-				<div id="description_content">
-					What pleases you or calls you forward from your own daze into enthusiasm? Which are the brightest moments of today and what will you look forward to retelling, over drinks or in a secret message? What things are there that sit inside you and wait, unabashedly looking to be fascinated and swept up?
-					<br/>
-					<br/>
-					The Please Project is looking for your pleasure, as you find it in these monthly themes. We are delighted at your contributions.
-				</div>
-			</div>
-			
-			<br/><br/>
-			
-			<div id="theme_description">
-				<div id="description_title">
-					Theme Description
-				</div>
-				<div id="description_content">
-					<?php echo $theme_manager->getDisplayedThemeDescription();?>
-				</div>
-			</div>
-		</div>
-		
-		<div id="sidebar_buttons" align="center">
-			<ul id="contribution_buttons">
-    			<li><a id="contribute_text_button"><span>contribute text</span></a></li>
-   				<li><a id="contribute_image_button"><span>contribute image</span></a></li>
-			</ul>
-		</div>
+		<?php include 'view/sidebar.php';?>
 	</div>
-	
-	
-	<div id="canvas">
-		<div id="sidebarslip"><?php echo $theme_manager->getDisplayedThemeTitle(); ?></div>
 		
+	<div id="canvas">
+		<?php include 'view/canvas.php';?>
 	</div>
 	
 	<div id="footer">
-		<span id="previous_theme_button">&lt;&lt;</span>&nbsp;<?php echo $theme_manager->getDisplayedThemeDate();?>&nbsp;<span id="next_theme_button">&gt;&gt;</span>
+		<?php include 'view/footer.php';?>
 	</div>
-	
 
 	<div id="forms" style="display:none">
 		<?php include 'view/content_contribution_forms.php';?>
 	</div>
-	
-	
-	
+			
 </body>
 </html>
