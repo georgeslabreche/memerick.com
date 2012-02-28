@@ -1,7 +1,6 @@
 #theme_navigation_button{
 	width:45%;
 	float:left;
-	cursor: pointer;
 	font-size: 1.5em;
 }
 
@@ -10,4 +9,8 @@
 	float:left;
 	font-size:1em;
 	padding:0.1em;
+}
+
+#theme_navigation_button_previous, #theme_navigation_button_next{
+	cursor: pointer;	
 }

@@ -1,6 +1,6 @@
 
 <div id="theme_navigation_button">
-	<div id="theme_navigation_button_previous">&#8678</div>
+	<span id="theme_navigation_button_previous">&#8678</span>
 </div>
 
 <div id="theme_date_display">
@@ -9,6 +9,6 @@
 
 
 <div id="theme_navigation_button">
-	<div id="theme_navigation_button_next">&#8680</div>
+	<span id="theme_navigation_button_next">&#8680</span>
 </div>
 
