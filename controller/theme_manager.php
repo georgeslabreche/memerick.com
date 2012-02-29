@@ -20,17 +20,24 @@ class ThemeManager {
 	 * Get the relative path of the background image to be used for the displayed theme.
 	 */
 	public function getDisplayedThemeBackgroundPath(){
-		return "themes/theme-" . $this->getDisplayedThemeId() . "/background.jpg";
+		$relativePath =  "themes/theme-" . $this->getDisplayedThemeId() . "/background.jpg";
+		
+		if(file_exists($relativePath)){
+			return $relativePath;
+		}else{
+			// use default CSS file if theme one doesn't exist.
+			return "themes/theme-default/background.jpg";
+		}
 	}
 
 	/**
 	 * Get CSS filename to use for currently displayed theme.
 	 */
 	public function getDisplayedThemeCssFilename(){
-		$filename = "themes/theme-" . $this->getDisplayedThemeId() . "/colours.css";
+		$relativePath = "themes/theme-" . $this->getDisplayedThemeId() . "/colours.css";
 		
-		if(file_exists($filename)){
-			return $filename;
+		if(file_exists($relativePath)){
+			return $relativePath;
 		}else{
 			// use default CSS file if theme one doesn't exist.
 			return "themes/theme-default/colours.css";
