@@ -7,18 +7,33 @@ class ThemeManager {
 	function __construct() {
 		$this->database_manager = new DatabaseManager();
 	}
+	
+	/**
+	 * Theme id is yyyy-m.
+	 * e.g. 2012-2
+	 */
+	private function getDisplayedThemeId(){
+		return $this->getDisplayedThemeYear() . "-" . $this->getDisplayedThemeMonth();
+	}
+	
+	/**
+	 * Get the relative path of the background image to be used for the displayed theme.
+	 */
+	public function getDisplayedThemeBackgroundPath(){
+		return "themes/theme-" . $this->getDisplayedThemeId() . "/background.jpg";
+	}
 
 	/**
 	 * Get CSS filename to use for currently displayed theme.
 	 */
 	public function getDisplayedThemeCssFilename(){
-		$filename = "css/theme-" . $this->getDisplayedThemeYear() . "-" . $this->getDisplayedThemeMonth() . ".css";
+		$filename = "themes/theme-" . $this->getDisplayedThemeId() . "/colours.css";
 		
 		if(file_exists($filename)){
 			return $filename;
 		}else{
 			// use default CSS file if theme one doesn't exist.
-			return "css/theme-default.css";
+			return "themes/theme-default/colours.css";
 		}
 	}
 	

@@ -33,6 +33,33 @@
 
 	// Hotfix for this issue: http://bugs.jqueryui.com/ticket/4163
 	document.onselectstart = function () { return false; };
+
+	// Resize background when window loads
+	$(window).load(function() {    
+		
+		var theWindow        = $(window),
+		    $bg              = $("#background"),
+		    aspectRatio      = $bg.width() / $bg.height();
+
+		function resizeBg() {
+
+			if ( (theWindow.width() / theWindow.height()) < aspectRatio ) {
+			    $bg
+			    	.removeClass()
+			    	.addClass('background_height');
+			} else {
+			    $bg
+			    	.removeClass()
+			    	.addClass('background_width');
+			}
+
+		}
+
+		theWindow.resize(function() {
+			resizeBg();
+		}).trigger("resize");
+
+	});
 	
 	// on page ready
 	$(document).ready(function() {
@@ -531,6 +558,9 @@
 </head>
 
 <body>
+	<!-- Background image  -->
+	<img src="<?php echo $theme_manager->getDisplayedThemeBackgroundPath()?>" id="background" alt="" />
+
 	<div class="sidebar">
 		<div class="sidebar_overlay"></div>
 		<div class="sidebar_content">
@@ -550,7 +580,7 @@
 	<div class="sidebar_slip"><?php echo $theme_manager->getDisplayedThemeTitle(); ?></div>
 	*/ ?>
 	 
-	<div id="logo_container"></div>
+	<div id="logo_container">Please&nbsp;Project</div>
 
 	
 	<div id="footer">

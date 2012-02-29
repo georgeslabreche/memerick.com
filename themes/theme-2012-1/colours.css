@@ -1,11 +1,6 @@
-/* Background image */
-html, body {
-    background-image:url('images/patterns/02.jpg');
-}
-
-/* Logo for this theme */
+/* Textual logo, the project't name */
 #logo_container{
-	background-image:url('images/logos/project_logo_01.gif');
+	color:#FFFFFF;
 }
 
 /* Background colour of sidebar. */
