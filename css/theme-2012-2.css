@@ -18,6 +18,12 @@ html, body {
 	color: rgb(75,84,94);
 }
 
+/* Text colour of footer links */
+#footer #footer_links a:link {color:#FF0000;}      /* unvisited link */
+#footer #footer_links a:visited {color:#00FF00;}  /* visited link */
+#footer #footer_links a:hover {color:#FF00FF;}  /* mouse over link */
+#footer #footer_links a:active {color:#0000FF;}  /* selected link */
+
 /* Button colours. */
 .contribution_button{
 	background-color:rgb(88,100,123);

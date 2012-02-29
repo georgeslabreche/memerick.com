@@ -1,14 +1,13 @@
 #theme_navigation_button{
-	width:45%;
-	float:left;
 	font-size: 1.5em;
+	padding-left:2em;
+	padding-right:2em;
+	display:inline;
 }
 
 #theme_date_display {
-	width:10%;
-	float:left;
 	font-size:1em;
-	padding:0.1em;
+	display:inline;
 }
 
 #theme_navigation_button_previous, #theme_navigation_button_next{

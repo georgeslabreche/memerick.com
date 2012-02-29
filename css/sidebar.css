@@ -1,6 +1,9 @@
 .sidebar {
 	position: relative;
 	float: left;
+	
+	/* Uncomment this if we want to sidebar to be layerd over everything else. */
+	/*z-index: 10000;*/
 }
 
 .sidebar_overlay, .sidebar_slip {
@@ -60,5 +63,5 @@
 }
 
 .contribution_button{
-	width:10em;	
+	width:11em;	
 }
