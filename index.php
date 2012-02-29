@@ -53,6 +53,9 @@
 			    	.addClass('background_width');
 			}
 
+			// Only display background after its resized
+			$bg.css('display', 'block');
+
 		}
 
 		theWindow.resize(function() {
