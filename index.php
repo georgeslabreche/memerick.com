@@ -263,14 +263,16 @@
 		/*
 		 * Build and display dialogs for user submitted image contributions.
 		 */
-		function build_and_display_image_dialog(photo_page_url, photo_display_rendition_url, photo_display_rendition_width, photo_display_rendition_height){
+		function build_and_display_image_dialog(photo_title, photo_description, photo_page_url, photo_display_rendition_url, photo_display_rendition_width, photo_display_rendition_height){
 
 			// Calculate random coordinates for the dialog
 			var coordinates = generate_random_coordinates();
 
+			var dialog_content = "<div><div id='image_dialog_text'><div id='photo_title'>" + photo_title + "</div><br /><div id='photo_author'>" + photo_description + "</div></div></div>";
+
 			//var zIndex = Math.floor(Math.random() * 2001) + 1000;  
 
-			var $image_dialog = $("<div></div>")
+			var $image_dialog = $(dialog_content)
 				.dialog({
 					dialogClass: 'image_dialog headerless_dialog',  // give dialog class name so we can theme it in css
 					autoOpen: false,
@@ -355,8 +357,11 @@
 					var photo_display_rendition_url = object['photo_display_rendition_url'];
 					var photo_display_rendition_width = object['photo_display_rendition_width'];
 					var photo_display_rendition_height = object['photo_display_rendition_height'];
+
+					var photo_title = object['photo_title'];
+					var photo_description = object['photo_description'];
 					
-					build_and_display_image_dialog(photo_page_url, photo_display_rendition_url, photo_display_rendition_width, photo_display_rendition_height);
+					build_and_display_image_dialog(photo_title, photo_description, photo_page_url, photo_display_rendition_url, photo_display_rendition_width, photo_display_rendition_height);
 				});
 			},
 			error : function() {
@@ -368,10 +373,11 @@
 		 * Text contribution form dialog.
 		 */
 		$("#text_contribution_div").dialog({
-			dialogClass: 'headerless_dialog',
+			title: 'contribute text',
+			draggable: false,
 			autoOpen: false,
 			modal: true,
-			height: text_editor_height+120,
+			height: text_editor_height+140,
 			width: text_editor_width+35,
 			resizable: false,
 			buttons: {
@@ -425,7 +431,8 @@
 		 * Image contribution form dialog.
 		 */
 		$("#image_contribution_div").dialog({
-			dialogClass: 'headerless_dialog',
+			title: 'contribute image',
+			draggable: false,
 			autoOpen: false,
 			width: 350,
 			modal: true,
@@ -441,6 +448,10 @@
 				}
 			},
 			close: function() {
+				// Clear form when closing image contribution dialog
+				$('#image_title').val('');
+				$('#image_author').val('');
+				$('#image_file').val('');
 			}
 		});
 

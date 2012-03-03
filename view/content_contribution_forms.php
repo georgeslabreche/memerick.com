@@ -14,6 +14,11 @@
 
 <div id="image_contribution_div">
 	<form name="image_contribution_form" id="image_contribution_form" action="controller/submit_image.php" method="POST" enctype="multipart/form-data">
+		
+		<label for="image_title">Title</label>&nbsp;<input type="text" name="image_title" id="image_title" size="25" maxlength="25"/>
+		<br/>
+		<label for="image_author">Author</label>&nbsp;<input type="text" name="image_author" id="image_author" size="25" maxlength="25"/>
+		<br/>
 		<!-- Path to the image file to upload -->
 		<input type="file" name="image_file" id="image_file"/>
 		

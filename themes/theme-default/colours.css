@@ -10,7 +10,7 @@
 
 /* Text colour of footer */
 #footer{
-	color: rgb(75,84,94);
+	color: #FFFFFF;
 }
 
 /* Text colour of footer links */
@@ -34,4 +34,16 @@
 /* Colour of the buttons when the mouse pointer clicks on a button. */
 .contribution_button:active {
 	color:#ff1;
+}
+
+/* Colour for title label in image box */
+#photo_title{	
+	background-color: #000000;
+	color: #FFFFFF
+}
+
+/* Colour for author label in image box */
+#photo_author{
+	background-color: #000000;
+	color: #FFFFFF	
 }

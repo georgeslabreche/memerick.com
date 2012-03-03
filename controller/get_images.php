@@ -37,7 +37,8 @@
 	 * 					"title":"Baby Elephant",
 	 * 					"ispublic":1,
 	 * 					"isfriend":0,
-	 * 					"isfamily":0
+	 * 					"isfamily":0,
+	 * 					"description": { "_content": "It's a baby elephant, so cute!"}
 	 * 				}]
 	 * }
 	 * 
@@ -48,7 +49,9 @@
 	 * 		"photo_page_url" : "http://www.flickr.com/photos/53074291@N04/6736805631/",
 	 * 		"photo_display_rendition_url" : "http://farm8.staticflickr.com/7021/6736805631_17530297c8_m.jpg",
      *		"photo_display_rendition_width" : "240",
-     *		"photo_display_rendition_height": "180"
+     *		"photo_display_rendition_height": "180",
+     *		"photo_title": "Baby Elephant",
+     *		"photo_descriptiom": "It's a baby elephant, so cute!",
 	 * }] 
 	 */
 	
@@ -66,13 +69,13 @@
 		$phpFlickr = new phpFlickr(FLICKR_API_KEY, FLICKR_API_SECRET, true);
 		
 		// Search by the current theme tags and our Flickr account user id.
-		$displayed_theme_photos = $phpFlickr->photos_search(array("user_id"=>FLICKR_USER_ID, "tags"=>$displayed_theme_tags, "tag_mode"=>"all"));
+		$displayed_theme_photos = $phpFlickr->photos_search(array("user_id"=>FLICKR_USER_ID, "tags"=>$displayed_theme_tags, "tag_mode"=>"all", "extras"=>"description"));
 	
 		// Build json result and return it	
 		foreach ((array)$displayed_theme_photos['photo'] as $photo) {
 	    	$photo_page_url = "http://www.flickr.com/photos/$photo[owner]/$photo[id]";
 	    	
-	    	// Get photo sizes
+	    	// Get photo sizes so that we can get rendition info for the rendition we wish to display.
 	    	$photo_sizes = $phpFlickr->photos_getSizes($photo["id"]);
 	    	
 	    	// Get required data for photo rendition we wish to display.
@@ -86,13 +89,37 @@
 	    		}
 	    		
 	    	}
+	    	
+	    	// Get photo title 
+	    	$title = $photo["title"];
+	    	
+	    	// If no title was given and default php title was set
+	    	// then make title "Untitled".
+			if(substr($title, 0, 3) == "php"){
+	    		$title = "untitled";
+	    	}
+	    	
+	    	
+	    	
+	    	// Get photo description
+	    	// In our case, the description is the author of the photo.
+	    	$description = $photo["description"];
+
+			if($description == null || $description == ""){
+	    		$description = "unknown";
+	    	}
+	    	
+	    	$author = "by: " . $description;
+	    	
 	
 	    	// Build array of data of photos to display
 	    	$rows[] = array(
 	            "photo_page_url" => $photo_page_url,
 	            "photo_display_rendition_url" => $photo_display_rendition_url,
 	    		"photo_display_rendition_width" => $photo_display_rendition_width,
-	    		"photo_display_rendition_height" => $photo_display_rendition_height
+	    		"photo_display_rendition_height" => $photo_display_rendition_height,
+	    		"photo_title" => $title,
+	    		"photo_description" => $author
 	    	);
 	    	
 		}
@@ -104,4 +131,6 @@
 		// If theme doesn't exist for the given year and month, return empty result.
 		print "";
 	}
+	
+
 ?>

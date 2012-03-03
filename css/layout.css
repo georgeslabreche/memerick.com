@@ -34,5 +34,23 @@ html, body {
   	right: 0em;
    	height: 2em;
    	text-align:center;
-   	padding-bottom:1.2em;
+   	padding-bottom:1.8em;
+}
+
+#image_dialog_text{
+	position:absolute;
+	font-style:italic;
+	width: 100%;
+	bottom: 0.3em;
+  	left: 0.3em;
+}
+
+#photo_title{	
+	display: inline;
+	padding: 0.2em;
+}
+
+#photo_author{
+	display: inline;
+	padding: 0.2em;
 }

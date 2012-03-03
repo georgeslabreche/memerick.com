@@ -6,6 +6,8 @@
 
 	// Retrieve path to where the file has been temporarily stored.
 	$temp_filename = $_FILES['image_file']['tmp_name'];
+	$title = $_POST["image_title"];
+	$author = $_POST["image_author"];
 	$year = $_POST["year"];
 	$month = $_POST["month"];
 
@@ -19,7 +21,7 @@
 	$current_theme_tags = $theme_manager->getThemeTags($year, $month);
 	
 	// From the temp folder where the file was uploaded, upload to Flickr.
-	$photo_id = $phpFlickr->sync_upload($temp_filename, null, null, $current_theme_tags);
+	$photo_id = $phpFlickr->sync_upload($temp_filename, $title, $author, $current_theme_tags);
 
 	print $photo_id;	
 ?>
